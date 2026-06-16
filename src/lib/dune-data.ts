@@ -468,7 +468,7 @@ export type ChakobsaEntry = {
 };
 
 export const chakobsa: Record<string, ChakobsaEntry> = {
-  // ── Originales ──────────────────────────────────────────────────────────────
+  // ── Originales ──
   "muad'dib":          { meaning: "El ratón saltarín del desierto; nombre tribal de Paul", note: "Símbolo de fuerza y supervivencia", verified: true },
   muaddib:             { meaning: "Variante sin apóstrofo de Muad'Dib", verified: true },
   sietch:              { meaning: "Lugar de reunión en tiempos de peligro; hogar Fremen", verified: true },
@@ -507,7 +507,7 @@ export const chakobsa: Record<string, ChakobsaEntry> = {
   baraka:              { meaning: "Bendición sagrada; hacedor de milagros", verified: true },
   miseratus:           { meaning: "Compasión; usado entre Fremen jurados", verified: true },
 
-  // ── Expandidos (fuente: Dune Fandom Wiki / Frank Herbert) ───────────────────
+  // ── Expandidos (fuente: Dune Fandom Wiki / Frank Herbert) ──
   abra:                { meaning: "Lágrima", note: "Pl. ibar", verified: true },
   adab:                { meaning: "Memoria insistente; recuerdo que exige ser escuchado", verified: true },
   akrab:               { meaning: "Escorpión", verified: true },
@@ -582,7 +582,7 @@ export const chakobsa: Record<string, ChakobsaEntry> = {
   wali:                { meaning: "Joven no probado en batalla", verified: true },
   yali:                { meaning: "Cuartos habitacionales dentro de un sietch", verified: true },
 
-  // ── Aproximados (sin término Chakobsa único documentado) ────────────────────
+  // ── Aproximados ──
   desierto:            { meaning: "Bled / kala — según contexto (abierto o vasto)", verified: false },
   gusano:              { meaning: "Shai-Hulud — el Gran Hacedor", verified: false },
   especia:             { meaning: "Melange — término Galáctico Estándar sin equivalente Chakobsa documentado", verified: false },
