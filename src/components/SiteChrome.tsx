@@ -8,7 +8,7 @@ const items = [
   { to: "/codice", label: "Códice" },
   { to: "/especia", label: "Especia" },
   { to: "/chakobsa", label: "Chakobsa" },
-  { to: "/familia", label: "Familia" },
+  { to: "/libro", label: "Libro" },
 ] as const;
 
 export function SiteNav() {

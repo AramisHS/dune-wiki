@@ -12,4 +12,14 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  vite: {
+    optimizeDeps: {
+      include: ["pdfjs-dist"],
+    },
+    build: {
+      rollupOptions: {
+        external: [],
+      },
+    },
+  },
 });

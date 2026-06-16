@@ -11,7 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as PersonajesRouteImport } from './routes/personajes'
 import { Route as LugaresRouteImport } from './routes/lugares'
-import { Route as FamiliaRouteImport } from './routes/familia'
+import { Route as LibroRouteImport } from './routes/libro'
 import { Route as EspeciaRouteImport } from './routes/especia'
 import { Route as CodiceRouteImport } from './routes/codice'
 import { Route as ChakobsaRouteImport } from './routes/chakobsa'
@@ -28,9 +28,9 @@ const LugaresRoute = LugaresRouteImport.update({
   path: '/lugares',
   getParentRoute: () => rootRouteImport,
 } as any)
-const FamiliaRoute = FamiliaRouteImport.update({
-  id: '/familia',
-  path: '/familia',
+const LibroRoute = LibroRouteImport.update({
+  id: '/libro',
+  path: '/libro',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EspeciaRoute = EspeciaRouteImport.update({
@@ -65,7 +65,7 @@ export interface FileRoutesByFullPath {
   '/chakobsa': typeof ChakobsaRoute
   '/codice': typeof CodiceRoute
   '/especia': typeof EspeciaRoute
-  '/familia': typeof FamiliaRoute
+  '/libro': typeof LibroRoute
   '/lugares': typeof LugaresRoute
   '/personajes': typeof PersonajesRoute
 }
@@ -75,7 +75,7 @@ export interface FileRoutesByTo {
   '/chakobsa': typeof ChakobsaRoute
   '/codice': typeof CodiceRoute
   '/especia': typeof EspeciaRoute
-  '/familia': typeof FamiliaRoute
+  '/libro': typeof LibroRoute
   '/lugares': typeof LugaresRoute
   '/personajes': typeof PersonajesRoute
 }
@@ -86,7 +86,7 @@ export interface FileRoutesById {
   '/chakobsa': typeof ChakobsaRoute
   '/codice': typeof CodiceRoute
   '/especia': typeof EspeciaRoute
-  '/familia': typeof FamiliaRoute
+  '/libro': typeof LibroRoute
   '/lugares': typeof LugaresRoute
   '/personajes': typeof PersonajesRoute
 }
@@ -98,7 +98,7 @@ export interface FileRouteTypes {
     | '/chakobsa'
     | '/codice'
     | '/especia'
-    | '/familia'
+    | '/libro'
     | '/lugares'
     | '/personajes'
   fileRoutesByTo: FileRoutesByTo
@@ -108,7 +108,7 @@ export interface FileRouteTypes {
     | '/chakobsa'
     | '/codice'
     | '/especia'
-    | '/familia'
+    | '/libro'
     | '/lugares'
     | '/personajes'
   id:
@@ -118,7 +118,7 @@ export interface FileRouteTypes {
     | '/chakobsa'
     | '/codice'
     | '/especia'
-    | '/familia'
+    | '/libro'
     | '/lugares'
     | '/personajes'
   fileRoutesById: FileRoutesById
@@ -129,7 +129,7 @@ export interface RootRouteChildren {
   ChakobsaRoute: typeof ChakobsaRoute
   CodiceRoute: typeof CodiceRoute
   EspeciaRoute: typeof EspeciaRoute
-  FamiliaRoute: typeof FamiliaRoute
+  LibroRoute: typeof LibroRoute
   LugaresRoute: typeof LugaresRoute
   PersonajesRoute: typeof PersonajesRoute
 }
@@ -150,11 +150,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LugaresRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/familia': {
-      id: '/familia'
-      path: '/familia'
-      fullPath: '/familia'
-      preLoaderRoute: typeof FamiliaRouteImport
+    '/libro': {
+      id: '/libro'
+      path: '/libro'
+      fullPath: '/libro'
+      preLoaderRoute: typeof LibroRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/especia': {
@@ -201,7 +201,7 @@ const rootRouteChildren: RootRouteChildren = {
   ChakobsaRoute: ChakobsaRoute,
   CodiceRoute: CodiceRoute,
   EspeciaRoute: EspeciaRoute,
-  FamiliaRoute: FamiliaRoute,
+  LibroRoute: LibroRoute,
   LugaresRoute: LugaresRoute,
   PersonajesRoute: PersonajesRoute,
 }

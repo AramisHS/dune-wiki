@@ -467,9 +467,6 @@ export type ChakobsaEntry = {
   verified: boolean;
 };
 
-// ============================================================
-// 1. LENGUAJE CHAKOBSA (palabras de la lengua Fremen)
-// ============================================================
 export const chakobsaLanguage: Record<string, ChakobsaEntry> = {
   // ── Verbos ──
   aaha: { meaning: "Entrar, moverse hacia, subir a", verified: true },
@@ -658,7 +655,6 @@ export const chakobsaLanguage: Record<string, ChakobsaEntry> = {
   zamit: { meaning: "Luchador, combatiente", verified: true },
   zami: { meaning: "Puño", verified: true },
   zuni: { meaning: "Hogar", verified: true },
-
   // ── Adjetivos ──
   cheshii: { meaning: "Bueno, bien hecho", note: "Del Excel Chakobsa", verified: true },
   ezlii: { meaning: "Sagrado, santo", verified: true },
@@ -674,7 +670,6 @@ export const chakobsaLanguage: Record<string, ChakobsaEntry> = {
   reshii: { meaning: "Largo", verified: true },
   thijii: { meaning: "Puro", verified: true },
   vejii: { meaning: "Verdadero, real, genuino", verified: true },
-
   // ── Frases y expresiones (lenguaje) ──
   "a-gef": { meaning: "¡Vamos!", note: "Expresión de movimiento grupal", verified: true },
   "belal kaifa": { meaning: "Amén; sin excepción", note: "Variante de Bi-la kaifa", verified: true },
@@ -695,11 +690,7 @@ export const chakobsaLanguage: Record<string, ChakobsaEntry> = {
   "ekkeri eddema": { meaning: "El Agua de Vida", note: "Frase ritual Fremen", verified: true },
 };
 
-// ============================================================
-// 2. TERMINOLOGÍA DEL IMPERIO (nombres propios, lugares, conceptos)
-// ============================================================
 export const duneTerminology: Record<string, ChakobsaEntry> = {
-  // Nombres propios y títulos
   "muad'dib": { meaning: "El ratón saltarín del desierto; nombre tribal de Paul", note: "Símbolo de fuerza y supervivencia", verified: true },
   muaddib: { meaning: "Variante sin apóstrofo de Muad'Dib", verified: true },
   "shai-hulud": { meaning: "Gran gusano de arena; El Hacedor", note: "Nombre que se pronuncia con reverencia", verified: true },
@@ -734,7 +725,6 @@ export const duneTerminology: Record<string, ChakobsaEntry> = {
   baraka: { meaning: "Bendición sagrada; hacedor de milagros", verified: true },
   miseratus: { meaning: "Compasión; usado entre Fremen jurados", verified: true },
 
-  // Términos del universo (del Excel y otras fuentes)
   abra: { meaning: "Lágrima", note: "Pl. ibar", verified: true },
   adab: { meaning: "Memoria insistente; recuerdo que exige ser escuchado", verified: true },
   akrab: { meaning: "Escorpión", verified: true },
@@ -809,7 +799,6 @@ export const duneTerminology: Record<string, ChakobsaEntry> = {
   wali: { meaning: "Joven no probado en batalla", verified: true },
   yali: { meaning: "Cuartos habitacionales dentro de un sietch", verified: true },
 
-  // Nombres de lugares y conceptos de la película
   "sich tabir": { meaning: "Sietch Tabr", note: "El sietch de Stilgar", verified: true },
   ornitoptero: { meaning: "Aeronave de alas batientes", verified: true },
   cosechadora: { meaning: "Planta industrial sobre orugas que recolecta melange", verified: true },
@@ -818,13 +807,9 @@ export const duneTerminology: Record<string, ChakobsaEntry> = {
   "e shayi huluud": { meaning: "Shai-Hulud", note: "Forma vocativa sagrada", verified: true },
 };
 
-// ============================================================
-// 3. UNIÓN PARA EL TRADUCTOR (incluye traducciones inversas)
-// ============================================================
 export const chakobsa: Record<string, ChakobsaEntry> = {
   ...chakobsaLanguage,
   ...duneTerminology,
-  // Traducciones inversas (español → chakobsa)
   gusano: { meaning: "Shai-Hulud — el Gran Hacedor", verified: false },
   especia: { meaning: "Melange — término Galáctico Estándar sin equivalente Chakobsa documentado", verified: false },
   desierto: { meaning: "Bled / reshim / kala — según contexto", verified: false },
@@ -832,9 +817,6 @@ export const chakobsa: Record<string, ChakobsaEntry> = {
   guerra: { meaning: "Jihad / zamih — según contexto", verified: false },
 };
 
-// ============================================================
-// 4. FRASES COMPLETAS (CORPUS)
-// ============================================================
 export type FullPhrase = {
   chakobsa: string;
   spanish: string;
@@ -842,7 +824,6 @@ export type FullPhrase = {
 };
 
 export const chakobsaFullPhrases: FullPhrase[] = [
-  // Chant de guerra del tráiler (Dune: Part Three)
   {
     chakobsa: "Dimalash ludhii e-l isnii-dh",
     spanish: "Aleja a los jóvenes de mí",
@@ -879,7 +860,6 @@ export const chakobsaFullPhrases: FullPhrase[] = [
     chakobsa: "Ru cheshah-r chifthit e-l isnii-dh",
     spanish: "Por favor, bruja, aléjate de mí",
   },
-  // Frases adicionales del Excel / películas
   {
     chakobsa: "Jila hiyak sa fadla",
     spanish: "Ve con ellos en paz",
@@ -910,16 +890,12 @@ export const chakobsaFullPhrases: FullPhrase[] = [
   },
 ];
 
-// ============================================================
-// 5. AFIJOS (prefijos y sufijos)
-// ============================================================
 export type Affix = {
   meaning: string;
   type: "prefix" | "suffix";
 };
 
 export const chakobsaAffixes: Record<string, Affix> = {
-  // Prefijos (con y sin guión para búsqueda flexible)
   "chi": { meaning: "deshacer / revertir", type: "prefix" },
   "chi-": { meaning: "deshacer / revertir", type: "prefix" },
   "chiv": { meaning: "deshacer / revertir", type: "prefix" },
@@ -932,7 +908,6 @@ export const chakobsaAffixes: Record<string, Affix> = {
   "yo-": { meaning: "repetición (iterativo)", type: "prefix" },
   "yoh": { meaning: "repetición (iterativo)", type: "prefix" },
   "yoh-": { meaning: "repetición (iterativo)", type: "prefix" },
-  // Sufijos
   "ha": { meaning: "él, ella, ello (dependiente)", type: "suffix" },
   "-ha": { meaning: "él, ella, ello (dependiente)", type: "suffix" },
   "im": { meaning: "nosotros (dependiente)", type: "suffix" },
@@ -979,9 +954,6 @@ export const chakobsaAffixes: Record<string, Affix> = {
   "-z": { meaning: "aumentativo", type: "suffix" },
 };
 
-// ============================================================
-// 6. FRASES SAGRADAS (para mostrar en la página)
-// ============================================================
 export const chakobsaPhrases = [
   {
     phrase: [
@@ -998,504 +970,3 @@ export const chakobsaPhrases = [
   }
 ];
 
-// ============================================================
-// 7. ÁRBOL GENEALÓGICO (CASA ATREIDES, HARKONNEN, CORRINO)
-// ============================================================
-
-export type FamilyMember = {
-  id: string;
-  name: string;
-  house: "Atreides" | "Harkonnen" | "Corrino" | "Vernius" | "Richese" | "Bene Gesserit" | "Fremen";
-  title?: string;
-  birth?: string;
-  death?: string;
-  parents?: string[]; // ids
-  spouses?: string[]; // ids
-  children?: string[]; // ids
-  notes?: string; // ej: "concubina", "pre-nacido", etc.
-};
-
-// Lista de todas las personas (con IDs únicos)
-export const familyMembers: FamilyMember[] = [
-  // ===== CASA CORRINO =====
-  {
-    id: "corrino-hassick3",
-    name: "Emperador Hassick Corrino III",
-    house: "Corrino",
-    title: "Emperador Padishah",
-  },
-  {
-    id: "corrino-fondil3",
-    name: "Emperador Fondil Corrino III",
-    house: "Corrino",
-    title: "Emperador Padishah",
-    parents: ["corrino-hassick3"],
-  },
-  {
-    id: "corrino-elrood9",
-    name: "Emperador Elrood Corrino IX",
-    house: "Corrino",
-    title: "Emperador Padishah",
-    parents: ["corrino-fondil3"],
-    spouses: ["corrino-shando", "corrino-alexandra", "corrino-habla", "corrino-barbarella"],
-  },
-  {
-    id: "corrino-shando",
-    name: "Shando Balut",
-    house: "Corrino",
-    title: "Concubina",
-    notes: "Concubina de Elrood IX",
-  },
-  {
-    id: "corrino-alexandra",
-    name: "Alexandra Ecaz",
-    house: "Corrino",
-    title: "3ª esposa",
-  },
-  {
-    id: "corrino-habla",
-    name: "Habla",
-    house: "Corrino",
-    title: "4ª esposa",
-  },
-  {
-    id: "corrino-barbarella",
-    name: "Barbarella Mutelli",
-    house: "Corrino",
-    title: "1ª esposa",
-  },
-  {
-    id: "corrino-shaddam4",
-    name: "Emperador Shaddam Corrino IV",
-    house: "Corrino",
-    title: "Emperador Padishah",
-    parents: ["corrino-elrood9"],
-    spouses: ["corrino-anirul"],
-    children: ["corrino-irulan", "corrino-chalice", "corrino-wensicia", "corrino-josifa", "corrino-rugi"],
-  },
-  {
-    id: "corrino-anirul",
-    name: "Anirul Sadow-Tonkin",
-    house: "Bene Gesserit",
-    title: "Reverenda Madre, 1ª esposa",
-    notes: "Madre de las hijas de Shaddam IV",
-  },
-  {
-    id: "corrino-irulan",
-    name: "Princesa Irulan Corrino",
-    house: "Corrino",
-    title: "Princesa Imperial, Historiadora",
-    parents: ["corrino-shaddam4", "corrino-anirul"],
-    notes: "Esposa de Paul Atreides (política)",
-  },
-  {
-    id: "corrino-chalice",
-    name: "Chalice Corrino",
-    house: "Corrino",
-    parents: ["corrino-shaddam4", "corrino-anirul"],
-  },
-  {
-    id: "corrino-wensicia",
-    name: "Wensicia Corrino",
-    house: "Corrino",
-    parents: ["corrino-shaddam4", "corrino-anirul"],
-    children: ["corrino-faradn"],
-  },
-  {
-    id: "corrino-josifa",
-    name: "Josifa Corrino",
-    house: "Corrino",
-    parents: ["corrino-shaddam4", "corrino-anirul"],
-  },
-  {
-    id: "corrino-rugi",
-    name: "Rugi Corrino",
-    house: "Corrino",
-    parents: ["corrino-shaddam4", "corrino-anirul"],
-  },
-  {
-    id: "corrino-faradn",
-    name: "Príncipe Farad'n Corrino",
-    house: "Corrino",
-    title: "Harq al-Ada, Escriba Real",
-    parents: ["corrino-wensicia"],
-    spouses: ["atreides-ghani"], // se casa con Ghanima
-  },
-  {
-    id: "corrino-helena",
-    name: "Helena Richese",
-    house: "Richese",
-    title: "Exiliada a las Hermanas del Aislamiento",
-    notes: "Madre de los hijos de Elrood IX? (según PDF)",
-  },
-  // ===== CASA ATREIDES =====
-  {
-    id: "atreides-paulus",
-    name: "Duque Paulus Atreides",
-    house: "Atreides",
-    title: "Duque de Caladan",
-    children: ["atreides-leto1"],
-  },
-  {
-    id: "atreides-leto1",
-    name: "Duque Leto Atreides I",
-    house: "Atreides",
-    title: "El Justo, Duque Rojo",
-    parents: ["atreides-paulus"],
-    spouses: ["atreides-jessica"], // concubina
-    children: ["atreides-paul", "atreides-alia"],
-  },
-  {
-    id: "atreides-jessica",
-    name: "Lady Jessica",
-    house: "Bene Gesserit",
-    title: "Reverenda Madre (defectora)",
-    notes: "Concubina de Leto I",
-    children: ["atreides-paul", "atreides-alia"],
-  },
-  {
-    id: "atreides-paul",
-    name: "Emperador Paul Atreides",
-    house: "Atreides",
-    title: "Muad'Dib, Kwisatz Haderach",
-    parents: ["atreides-leto1", "atreides-jessica"],
-    spouses: ["atreides-chani"], // concubina
-    children: ["atreides-leto2", "atreides-ghani"],
-  },
-  {
-    id: "atreides-chani",
-    name: "Chani",
-    house: "Fremen",
-    title: "Sayyadina, concubina",
-    children: ["atreides-leto2", "atreides-ghani"],
-  },
-  {
-    id: "atreides-alia",
-    name: "Alia Atreides",
-    house: "Atreides",
-    title: "Santa Alia de la Espada, Regente",
-    parents: ["atreides-leto1", "atreides-jessica"],
-    spouses: ["atreides-duncan"], // se casa con un ghola
-  },
-  {
-    id: "atreides-leto2",
-    name: "Dios Emperador Leto Atreides II",
-    house: "Atreides",
-    title: "El Tirano",
-    parents: ["atreides-paul", "atreides-chani"],
-    children: ["atreides-moneo", "atreides-siona"], // descendientes
-  },
-  {
-    id: "atreides-ghani",
-    name: "Ghanima Atreides",
-    house: "Atreides",
-    parents: ["atreides-paul", "atreides-chani"],
-    spouses: ["corrino-faradn"],
-  },
-  {
-    id: "atreides-moneo",
-    name: "Moneo Atreides",
-    house: "Atreides",
-    title: "Mayordomo",
-    parents: ["atreides-leto2"],
-    children: ["atreides-siona"],
-  },
-  {
-    id: "atreides-siona",
-    name: "Siona Ibn al-Seyefa Atreides",
-    house: "Atreides",
-    title: "Rebelde",
-    parents: ["atreides-moneo"],
-    spouses: ["atreides-duncan-last"], // se casa con el último Duncan
-  },
-  {
-    id: "atreides-duncan",
-    name: "Duncan Idaho",
-    house: "Atreides",
-    title: "Espadachín, Ghola",
-    notes: "Múltiples gholas, se casa con Alia",
-  },
-  {
-    id: "atreides-duncan-last",
-    name: "Duncan Idaho (último ghola)",
-    house: "Atreides",
-    title: "Kwisatz Haderach definitivo",
-    spouses: ["atreides-siona"],
-  },
-  // ===== CASA HARKONNEN =====
-  {
-    id: "harkonnen-vladimir",
-    name: "Barón Vladimir Harkonnen",
-    house: "Harkonnen",
-    title: "Siridar de Giedi Prime",
-    children: ["harkonnen-feyd", "harkonnen-rabban", "harkonnen-abu"],
-  },
-  {
-    id: "harkonnen-feyd",
-    name: "Feyd-Rautha Harkonnen",
-    house: "Harkonnen",
-    title: "Heredero Harkonnen",
-    parents: ["harkonnen-vladimir"],
-  },
-  {
-    id: "harkonnen-rabban",
-    name: "Glossu 'Bestia' Rabban",
-    house: "Harkonnen",
-    title: "Gobernador de Arrakis",
-    parents: ["harkonnen-vladimir"],
-  },
-  {
-    id: "harkonnen-abu",
-    name: "Abulurd Harkonnen (Rabban)",
-    house: "Harkonnen",
-    title: "Gobernador de Lankiveil",
-    parents: ["harkonnen-vladimir"],
-  },
-  // ===== OTRAS CASAS (para completar) =====
-  {
-    id: "richese-ilban",
-    name: "Conde Ilban Richese",
-    house: "Richese",
-  },
-  {
-    id: "vernius-kailea",
-    name: "Kailea Vernius",
-    house: "Vernius",
-    title: "Concubina de Leto I?",
-    children: ["atreides-victor"],
-  },
-  {
-    id: "atreides-victor",
-    name: "Victor Atreides",
-    house: "Atreides",
-    parents: ["atreides-leto1", "vernius-kailea"],
-  },
-];
-
-// ============================================================
-// 8. CONSTRUCCIÓN DEL ÁRBOL JERÁRQUICO PARA react-d3-tree
-// ============================================================
-
-// Función para construir un nodo jerárquico a partir de un ID raíz
-export function buildFamilyTree(rootId: string) {
-  const member = familyMembers.find((m) => m.id === rootId);
-  if (!member) return null;
-
-  const node: any = {
-    name: member.name,
-    attributes: {
-      house: member.house,
-      title: member.title || "",
-      birth: member.birth || "",
-      death: member.death || "",
-      notes: member.notes || "",
-    },
-    children: [],
-  };
-
-  // Buscar hijos directos (donde este ID esté en parents)
-  const children = familyMembers.filter((m) => m.parents?.includes(rootId));
-  for (const child of children) {
-    const childNode = buildFamilyTree(child.id);
-    if (childNode) node.children.push(childNode);
-  }
-
-  return node;
-}
-
-// Árboles separados para cada casa (usando las raíces principales)
-export const atreidesTree = buildFamilyTree("atreides-paulus");
-export const harkonnenTree = buildFamilyTree("harkonnen-vladimir");
-export const corrinoTree = buildFamilyTree("corrino-shaddam4"); // también podría ser hassick3, pero shaddam4 tiene más descendencia
-
-// ============================================================
-// 9. ÁRBOL GENEALÓGICO UNIFICADO (Todas las casas)
-// ============================================================
-
-// Nodo raíz común: Emperador Elrood Corrino IX (conecta con todas las casas)
-export const unifiedFamilyTree = {
-  name: "Elrood Corrino IX",
-  attributes: {
-    house: "Corrino",
-    title: "Emperador Padishah",
-    birth: "10.024 A.G.",
-    death: "10.156 A.G.",
-  },
-  children: [
-    // Hijos de Elrood IX (conectan con Shaddam IV y otros)
-    {
-      name: "Shaddam Corrino IV",
-      attributes: {
-        house: "Corrino",
-        title: "Emperador Padishah",
-        birth: "10.110 A.G.",
-        death: "10.207 A.G.",
-      },
-      children: [
-        // Hijas de Shaddam IV
-        {
-          name: "Irulan Corrino",
-          attributes: {
-            house: "Corrino",
-            title: "Princesa Imperial",
-            birth: "10.156 A.G.",
-          },
-        },
-        {
-          name: "Chalice Corrino",
-          attributes: { house: "Corrino" },
-        },
-        {
-          name: "Wensicia Corrino",
-          attributes: { house: "Corrino" },
-          children: [
-            {
-              name: "Farad'n Corrino",
-              attributes: {
-                house: "Corrino",
-                title: "Harq al-Ada",
-                birth: "10.198 A.G.",
-              },
-            },
-          ],
-        },
-        {
-          name: "Josifa Corrino",
-          attributes: { house: "Corrino" },
-        },
-        {
-          name: "Rugi Corrino",
-          attributes: { house: "Corrino" },
-        },
-        // Conexión con Atreides: Irulan se casa con Paul
-        {
-          name: "Paul Atreides",
-          attributes: {
-            house: "Atreides",
-            title: "Muad'Dib, Kwisatz Haderach",
-            birth: "10.176 A.G.",
-          },
-          children: [
-            {
-              name: "Leto Atreides II",
-              attributes: {
-                house: "Atreides",
-                title: "Dios Emperador",
-                birth: "10.193 A.G.",
-              },
-              children: [
-                {
-                  name: "Moneo Atreides",
-                  attributes: {
-                    house: "Atreides",
-                    title: "Mayordomo",
-                    birth: "13.610 A.G.",
-                  },
-                  children: [
-                    {
-                      name: "Siona Atreides",
-                      attributes: {
-                        house: "Atreides",
-                        title: "Rebelde",
-                        birth: "13.728 A.G.",
-                      },
-                    },
-                  ],
-                },
-              ],
-            },
-            {
-              name: "Ghanima Atreides",
-              attributes: {
-                house: "Atreides",
-                title: "Esposa de Farad'n",
-                birth: "10.193 A.G.",
-              },
-            },
-          ],
-        },
-        // Conexión con Harkonnen: Shaddam IV tiene relación con Vladimir Harkonnen (alianza)
-        {
-          name: "Vladimir Harkonnen",
-          attributes: {
-            house: "Harkonnen",
-            title: "Barón, Siridar de Giedi Prime",
-            birth: "10.110 A.G.",
-            death: "10.193 A.G.",
-          },
-          children: [
-            {
-              name: "Feyd-Rautha Harkonnen",
-              attributes: {
-                house: "Harkonnen",
-                title: "Heredero Harkonnen",
-                birth: "10.191 A.G.",
-              },
-            },
-            {
-              name: "Glossu 'Beast' Rabban",
-              attributes: {
-                house: "Harkonnen",
-                title: "Gobernador de Arrakis",
-              },
-            },
-            {
-              name: "Abulurd Harkonnen",
-              attributes: {
-                house: "Harkonnen",
-                title: "Gobernador de Lankiveil",
-              },
-            },
-          ],
-        },
-        // También incluimos a Leto I y Jessica
-        {
-          name: "Leto Atreides I",
-          attributes: {
-            house: "Atreides",
-            title: "El Justo, Duque Rojo",
-            birth: "10.140 A.G.",
-            death: "10.191 A.G.",
-          },
-          children: [
-            {
-              name: "Paul Atreides",
-              attributes: {
-                house: "Atreides",
-                title: "Muad'Dib, Kwisatz Haderach",
-                birth: "10.176 A.G.",
-              },
-            },
-            {
-              name: "Alia Atreides",
-              attributes: {
-                house: "Atreides",
-                title: "Santa Alia de la Espada",
-                birth: "10.191 A.G.",
-              },
-            },
-          ],
-          spouses: [
-            {
-              name: "Lady Jessica",
-              attributes: {
-                house: "Bene Gesserit",
-                title: "Reverenda Madre",
-                birth: "10.154 A.G.",
-              },
-            },
-          ],
-        },
-      ],
-    },
-    // Otros hijos de Elrood IX (como los que se casaron con otras casas)
-    {
-      name: "Helena Richese",
-      attributes: {
-        house: "Richese",
-        title: "Exiliada",
-      },
-    },
-    // ... puedes añadir más según el PDF
-  ],
-};

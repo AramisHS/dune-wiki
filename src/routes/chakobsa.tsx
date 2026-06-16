@@ -9,7 +9,7 @@ import {
     chakobsaAffixes,
     chakobsaFullPhrases,
 } from "@/lib/dune-data";
-import { ClientOnly } from "@/components/ClientOnly";
+import { ClientOnly } from "@/components/ui/ClientOnly";
 
 export const Route = createFileRoute("/chakobsa")({
     head: () => ({
@@ -44,7 +44,6 @@ const normalize = (str: string) =>
 
 const tokenize = (str: string) => normalize(str).split(/\s+/).filter(Boolean);
 
-// ====== ANÁLISIS MORFOLÓGICO ======
 function analyzeWord(
     word: string
 ): { root: string; meaning: string; verified: boolean } | null {
@@ -102,8 +101,6 @@ function analyzeWord(
 
     return null;
 }
-
-// ====== TRADUCTOR PRINCIPAL ======
 function translateText(
     text: string,
     direction: Direction
@@ -221,17 +218,15 @@ function translateText(
     return results;
 }
 
-// ====== COMPONENTE ======
 function ChakobsaPage() {
     const [direction, setDirection] = useState<Direction>("ch→es");
     const [input, setInput] = useState("Dimalash ludhii e-l isnii-dh");
     const [search, setSearch] = useState("");
-    const [showLanguage, setShowLanguage] = useState(false); // ← minimizado por defecto
-    const [showTerminology, setShowTerminology] = useState(false); // ← minimizado por defecto
+    const [showLanguage, setShowLanguage] = useState(false);
+    const [showTerminology, setShowTerminology] = useState(false); 
 
     const lines = useMemo(() => translateText(input, direction), [input, direction]);
 
-    // Filtrar cada sección
     const filteredLanguage = useMemo(() => {
         const entries = Object.entries(chakobsaLanguage);
         if (!search.trim()) return entries;
@@ -250,10 +245,8 @@ function ChakobsaPage() {
         );
     }, [search]);
 
-    // Efecto: al buscar, expandir la sección que tenga resultados
     useEffect(() => {
         if (!search.trim()) {
-            // Si la búsqueda está vacía, no forzamos nada (se mantienen como están)
             return;
         }
         const hasLanguageResults = filteredLanguage.length > 0;
@@ -261,7 +254,6 @@ function ChakobsaPage() {
 
         if (hasLanguageResults) setShowLanguage(true);
         if (hasTerminologyResults) setShowTerminology(true);
-        // Si no hay resultados en ninguna, no hacemos nada (se quedan como están)
     }, [search, filteredLanguage, filteredTerminology]);
 
     const handleToggle = () => {
@@ -441,7 +433,7 @@ function ChakobsaPage() {
                     </div>
                 </section>
 
-                {/* DICCIONARIO - DOS SECCIONES COLAPSABLES (minimizadas por defecto) */}
+                {/* DICCIONARIO */}
                 <section className="mx-auto max-w-7xl px-6 pb-24 md:px-10">
                     <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                         <div>
@@ -458,7 +450,7 @@ function ChakobsaPage() {
                         />
                     </div>
 
-                    {/* SECCIÓN 1: LENGUAJE CHAKOBSA */}
+                    {/* LENGUAJE CHAKOBSA */}
                     <div className="mb-6 border border-sand/10">
                         <button
                             onClick={() => setShowLanguage(!showLanguage)}
@@ -508,7 +500,7 @@ function ChakobsaPage() {
                         )}
                     </div>
 
-                    {/* SECCIÓN 2: TERMINOLOGÍA DEL IMPERIO */}
+                    {/* TERMINOLOGÍA DEL IMPERIO */}
                     <div className="border border-sand/10">
                         <button
                             onClick={() => setShowTerminology(!showTerminology)}
