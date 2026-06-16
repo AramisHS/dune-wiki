@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { browserTitles } from "../lib/dune-data";
 
 function NotFoundComponent() {
   return (
@@ -99,6 +100,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400&display=swap",
       },
+      { rel: "icon", href: "https://img.icons8.com/?size=100&id=vAfwbq5MngUL&format=png&color=000000", type: "image/x-icon" },
     ],
   }),
   shellComponent: RootShell,
@@ -123,6 +125,16 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+
+  useEffect(() => {
+    let index = 0;
+    const interval = setInterval(() => {
+      document.title = browserTitles[index % browserTitles.length];
+      index++;
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

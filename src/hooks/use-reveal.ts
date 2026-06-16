@@ -1,18 +1,16 @@
 import { useEffect, useRef } from "react";
 
-// use-reveal.ts
 export function useReveal<T extends HTMLElement = HTMLElement>(
     dep?: unknown,
     options?: { reset?: boolean; once?: boolean }
 ) {
     const ref = useRef<T | null>(null);
-    const initialized = useRef(false); // ← rastrea si ya corrió
+    const initialized = useRef(false);
 
     useEffect(() => {
         const root = ref.current;
         if (!root || typeof IntersectionObserver === "undefined") return;
 
-        // Si once=true y ya se inicializó, no hacer nada
         if (options?.once && initialized.current) return;
 
         const targets = root.querySelectorAll<HTMLElement>(
@@ -41,7 +39,7 @@ export function useReveal<T extends HTMLElement = HTMLElement>(
 
         const raf = requestAnimationFrame(() => {
             targets.forEach((t) => io.observe(t));
-            initialized.current = true; // ← marca como inicializado
+            initialized.current = true;
         });
 
         return () => {

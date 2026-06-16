@@ -52,7 +52,7 @@ export function DuneBookReader({ file = duneBook }: DuneBookReaderProps) {
     // No renderizar nada en el servidor
     if (!isClient) {
         return (
-            <div className="flex h-[600px] items-center justify-center text-sand/40 text-sm animate-pulse">
+            <div className="flex h-150 items-center justify-center text-sand/40 text-sm animate-pulse">
                 Cargando lector de libros…
             </div>
         );
@@ -60,7 +60,7 @@ export function DuneBookReader({ file = duneBook }: DuneBookReaderProps) {
 
     if (error) {
         return (
-            <div className="flex flex-col items-center justify-center h-[600px] p-8 text-center border border-red-500/30 rounded-xl bg-red-500/10">
+            <div className="flex flex-col items-center justify-center h-150 p-8 text-center border border-red-500/30 rounded-xl bg-red-500/10">
                 <h3 className="text-xl font-display text-red-400 mb-2">Error al cargar el libro</h3>
                 <p className="text-muted-foreground">{error}</p>
                 <p className="text-xs text-muted-foreground/50 mt-4">
@@ -135,7 +135,7 @@ export function DuneBookReader({ file = duneBook }: DuneBookReaderProps) {
                     onLoadError={onDocumentLoadError}
                     className="flex justify-center"
                     loading={
-                        <div className="flex items-center justify-center h-[500px] text-sand/40 animate-pulse">
+                        <div className="flex items-center justify-center h-125 text-sand/40 animate-pulse">
                             Cargando páginas…
                         </div>
                     }
