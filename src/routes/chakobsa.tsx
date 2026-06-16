@@ -1,8 +1,10 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { SiteNav, SiteFooter } from "@/components/SiteChrome";
 import {
     chakobsa,
+    chakobsaLanguage,
+    duneTerminology,
     chakobsaPhrases,
     chakobsaAffixes,
     chakobsaFullPhrases,
@@ -42,32 +44,27 @@ const normalize = (str: string) =>
 
 const tokenize = (str: string) => normalize(str).split(/\s+/).filter(Boolean);
 
-// ====== ANÁLISIS MORFOLÓGICO MEJORADO ======
+// ====== ANÁLISIS MORFOLÓGICO ======
 function analyzeWord(
     word: string
 ): { root: string; meaning: string; verified: boolean } | null {
     const normalized = normalize(word);
     if (!normalized) return null;
 
-    // 1. Búsqueda directa
     const direct = chakobsa[normalized];
     if (direct) {
         return { root: normalized, meaning: direct.meaning, verified: direct.verified };
     }
 
-    // 2. Obtener lista de sufijos (claves que contienen el sufijo sin guión)
     const suffixKeys = Object.keys(chakobsaAffixes).filter(
         (k) => chakobsaAffixes[k].type === "suffix"
     );
-    // Ordenar por longitud descendente (para que "sh" no gane a "ash")
     suffixKeys.sort((a, b) => b.replace(/^-/, "").length - a.replace(/^-/, "").length);
 
     for (const suffixKey of suffixKeys) {
-        // Quitamos el guión si existe para comparar
         const suffix = suffixKey.replace(/^-/, "");
         if (normalized.endsWith(suffix)) {
             const possibleRoot = normalized.slice(0, -suffix.length);
-            // Buscar la raíz en el diccionario principal
             const rootDef = chakobsa[possibleRoot];
             if (rootDef) {
                 const affixMeaning = chakobsaAffixes[suffixKey].meaning;
@@ -81,7 +78,6 @@ function analyzeWord(
         }
     }
 
-    // 3. Prefijos
     const prefixKeys = Object.keys(chakobsaAffixes).filter(
         (k) => chakobsaAffixes[k].type === "prefix"
     );
@@ -111,14 +107,13 @@ function analyzeWord(
 function translateText(
     text: string,
     direction: Direction
-): Array<{ original: string; result: string; found: boolean; verified: boolean }> {
+): Array<{ original: string; result: string; found: boolean; verified: boolean; isFullPhrase?: boolean }> {
     if (!text || !text.trim()) return [];
 
     const trimmed = text.trim();
-    const results: Array<{ original: string; result: string; found: boolean; verified: boolean }> = [];
+    const results: Array<{ original: string; result: string; found: boolean; verified: boolean; isFullPhrase?: boolean }> = [];
 
     if (direction === "ch→es") {
-        // 1. Frase completa en el corpus
         for (const phrase of chakobsaFullPhrases) {
             if (normalize(phrase.chakobsa) === normalize(trimmed)) {
                 return [
@@ -127,18 +122,17 @@ function translateText(
                         result: phrase.spanish,
                         found: true,
                         verified: true,
+                        isFullPhrase: true,
                     },
                 ];
             }
         }
 
-        // 2. Tokenizar y analizar cada palabra
         const words = trimmed.split(/\s+/);
         for (const word of words) {
             const clean = normalize(word);
             if (!clean) continue;
 
-            // Buscar directo
             const def = chakobsa[clean];
             if (def) {
                 results.push({
@@ -150,7 +144,6 @@ function translateText(
                 continue;
             }
 
-            // Análisis morfológico
             const analyzed = analyzeWord(clean);
             if (analyzed) {
                 results.push({
@@ -162,16 +155,14 @@ function translateText(
                 continue;
             }
 
-            // No encontrado
             results.push({
                 original: word,
-                result: "Sin traducción documentada",
+                result: "",
                 found: false,
                 verified: false,
             });
         }
     } else {
-        // Español → Chakobsa (similar pero inverso)
         for (const phrase of chakobsaFullPhrases) {
             if (normalize(phrase.spanish) === normalize(trimmed)) {
                 return [
@@ -180,6 +171,7 @@ function translateText(
                         result: phrase.chakobsa,
                         found: true,
                         verified: true,
+                        isFullPhrase: true,
                     },
                 ];
             }
@@ -190,7 +182,6 @@ function translateText(
             const clean = normalize(word);
             if (!clean) continue;
 
-            // Coincidencia directa (palabra es clave Chakobsa)
             const direct = chakobsa[clean];
             if (direct) {
                 results.push({
@@ -202,7 +193,6 @@ function translateText(
                 continue;
             }
 
-            // Búsqueda inversa (buscar en significados)
             let found = false;
             for (const [key, def] of Object.entries(chakobsa)) {
                 if (normalize(def.meaning).includes(clean)) {
@@ -220,7 +210,7 @@ function translateText(
             if (!found) {
                 results.push({
                     original: word,
-                    result: "Sin equivalente en Chakobsa",
+                    result: "",
                     found: false,
                     verified: false,
                 });
@@ -236,17 +226,43 @@ function ChakobsaPage() {
     const [direction, setDirection] = useState<Direction>("ch→es");
     const [input, setInput] = useState("Dimalash ludhii e-l isnii-dh");
     const [search, setSearch] = useState("");
+    const [showLanguage, setShowLanguage] = useState(false); // ← minimizado por defecto
+    const [showTerminology, setShowTerminology] = useState(false); // ← minimizado por defecto
 
     const lines = useMemo(() => translateText(input, direction), [input, direction]);
 
-    const filteredDict = useMemo(() => {
-        const entries = Object.entries(chakobsa);
+    // Filtrar cada sección
+    const filteredLanguage = useMemo(() => {
+        const entries = Object.entries(chakobsaLanguage);
         if (!search.trim()) return entries;
         const s = search.toLowerCase();
         return entries.filter(
             ([k, v]) => k.includes(s) || v.meaning.toLowerCase().includes(s)
         );
     }, [search]);
+
+    const filteredTerminology = useMemo(() => {
+        const entries = Object.entries(duneTerminology);
+        if (!search.trim()) return entries;
+        const s = search.toLowerCase();
+        return entries.filter(
+            ([k, v]) => k.includes(s) || v.meaning.toLowerCase().includes(s)
+        );
+    }, [search]);
+
+    // Efecto: al buscar, expandir la sección que tenga resultados
+    useEffect(() => {
+        if (!search.trim()) {
+            // Si la búsqueda está vacía, no forzamos nada (se mantienen como están)
+            return;
+        }
+        const hasLanguageResults = filteredLanguage.length > 0;
+        const hasTerminologyResults = filteredTerminology.length > 0;
+
+        if (hasLanguageResults) setShowLanguage(true);
+        if (hasTerminologyResults) setShowTerminology(true);
+        // Si no hay resultados en ninguna, no hacemos nada (se quedan como están)
+    }, [search, filteredLanguage, filteredTerminology]);
 
     const handleToggle = () => {
         const next: Direction = direction === "ch→es" ? "es→ch" : "ch→es";
@@ -273,7 +289,9 @@ function ChakobsaPage() {
         >
             <div className="min-h-screen">
                 <SiteNav />
-                <header className="px-6 pt-40 pb-12 md:px-10">
+
+                {/* HEADER */}
+                <header className="px-6 pt-40 pb-16 md:px-10">
                     <div className="mx-auto max-w-7xl">
                         <p className="eyebrow mb-4 animate-shimmer">
                             Lengua de los Sietches · Chakobsa
@@ -289,7 +307,8 @@ function ChakobsaPage() {
                     </div>
                 </header>
 
-                <section className="mx-auto max-w-5xl px-6 py-20 md:px-10">
+                {/* TERMINAL TRADUCTOR */}
+                <section className="mx-auto max-w-5xl px-6 pb-16 md:px-10">
                     <div className="border border-spice/30 bg-dune-black p-6 shadow-dune md:p-10">
                         <div className="mb-6 flex items-center justify-between border-b border-sand/10 pb-4">
                             <div className="flex items-center gap-2">
@@ -362,78 +381,67 @@ function ChakobsaPage() {
                                         <span className="animate-blink">|</span>
                                     </p>
                                 ) : (
-                                    lines.map((line, i) => (
-                                        <div key={i} className="flex items-start gap-3">
-                                            <span className="mt-0.5 shrink-0 font-mono text-sm text-spice">
-                                                ›
-                                            </span>
-                                            <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                                                <span className="font-mono text-sm italic text-sand/60">
-                                                    «{line.original}»
-                                                </span>
-                                                {line.found ? (
-                                                    <>
-                                                        <span className="font-mono text-sm text-sand/40">
-                                                            →
-                                                        </span>
-                                                        <span className="font-mono text-sm text-sand-soft">
-                                                            {line.result}
-                                                        </span>
-                                                        {!line.verified && (
-                                                            <span className="border border-amber-600/50 bg-amber-600/10 px-1.5 py-0.5 font-mono text-[8px] tracking-[0.2em] text-amber-500 uppercase">
-                                                                ◈ Aprox.
-                                                            </span>
-                                                        )}
-                                                    </>
-                                                ) : (
-                                                    <>
-                                                        <span className="font-mono text-sm text-sand/40">
-                                                            →
-                                                        </span>
-                                                        <span className="font-mono text-sm text-blood/70">
-                                                            {line.result}
-                                                        </span>
-                                                        <span className="border border-blood/40 bg-blood/10 px-1.5 py-0.5 font-mono text-[8px] tracking-[0.2em] text-blood/80 uppercase">
-                                                            ✕ No registrado
-                                                        </span>
-                                                    </>
-                                                )}
-                                            </div>
-                                        </div>
-                                    ))
-                                )}
-                            </div>
-                        </div>
+                                    lines.map((line, i) => {
+                                        if (line.isFullPhrase) {
+                                            return (
+                                                <div key={i} className="flex items-start gap-3">
+                                                    <span className="mt-0.5 shrink-0 font-mono text-sm text-spice">
+                                                        ›
+                                                    </span>
+                                                    <span className="font-mono text-sm text-sand-soft">
+                                                        {line.result}
+                                                    </span>
+                                                </div>
+                                            );
+                                        }
 
-                        <div className="mt-8 flex flex-wrap gap-4 border-t border-sand/10 pt-6">
-                            <div className="flex items-center gap-2">
-                                <span className="border border-sand/30 bg-sand/5 px-1.5 py-0.5 font-mono text-[8px] text-sand/60">
-                                    Verificado
-                                </span>
-                                <span className="font-mono text-[9px] text-sand/40">
-                                    Fuente documental Fremen
-                                </span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <span className="border border-amber-600/50 bg-amber-600/10 px-1.5 py-0.5 font-mono text-[8px] text-amber-500">
-                                    ◈ Aprox.
-                                </span>
-                                <span className="font-mono text-[9px] text-sand/40">
-                                    Traducción aproximada
-                                </span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                                <span className="border border-blood/40 bg-blood/10 px-1.5 py-0.5 font-mono text-[8px] text-blood/80">
-                                    ✕ No registrado
-                                </span>
-                                <span className="font-mono text-[9px] text-sand/40">
-                                    Sin equivalente documentado
-                                </span>
+                                        return (
+                                            <div key={i} className="flex items-start gap-3">
+                                                <span className="mt-0.5 shrink-0 font-mono text-sm text-spice">
+                                                    ›
+                                                </span>
+                                                <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                                                    <span className="font-mono text-sm italic text-sand/60">
+                                                        «{line.original}»
+                                                    </span>
+                                                    {line.found ? (
+                                                        <>
+                                                            <span className="font-mono text-sm text-sand/40">
+                                                                →
+                                                            </span>
+                                                            <span className="font-mono text-sm text-sand-soft">
+                                                                {line.result}
+                                                            </span>
+                                                            {!line.verified && (
+                                                                <span className="border border-amber-600/50 bg-amber-600/10 px-1.5 py-0.5 font-mono text-[8px] tracking-[0.2em] text-amber-500 uppercase">
+                                                                    ◈ Aprox.
+                                                                </span>
+                                                            )}
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <span className="font-mono text-sm text-sand/40">
+                                                                →
+                                                            </span>
+                                                            <span className="font-mono text-sm text-blood/70">
+                                                                Sin traducción documentada
+                                                            </span>
+                                                            <span className="border border-blood/40 bg-blood/10 px-1.5 py-0.5 font-mono text-[8px] tracking-[0.2em] text-blood/80 uppercase">
+                                                                ✕ No registrado
+                                                            </span>
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        );
+                                    })
+                                )}
                             </div>
                         </div>
                     </div>
                 </section>
 
+                {/* DICCIONARIO - DOS SECCIONES COLAPSABLES (minimizadas por defecto) */}
                 <section className="mx-auto max-w-7xl px-6 pb-24 md:px-10">
                     <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                         <div>
@@ -450,36 +458,102 @@ function ChakobsaPage() {
                         />
                     </div>
 
-                    <div className="grid grid-cols-1 gap-px border border-sand/10 bg-sand/10 sm:grid-cols-2 md:grid-cols-3">
-                        {filteredDict.map(([word, def]) => (
-                            <div
-                                key={word}
-                                className="group relative bg-dune-black p-5 transition-colors hover:bg-card"
-                            >
-                                <span
-                                    className={`absolute top-3 right-3 font-mono text-[7px] tracking-[0.2em] uppercase ${def.verified ? "text-sand/20" : "text-amber-600/60"
-                                        }`}
-                                >
-                                    {def.verified ? "◆" : "◈ Aprox"}
-                                </span>
-                                <p className="text-display pr-8 text-xl text-sand-soft capitalize">
-                                    {word}
-                                </p>
-                                <p className="mt-2 text-sm text-muted-foreground">
-                                    {capitalize(def.meaning)}
-                                </p>
-                                {def.note && (
-                                    <p className="mt-2 font-mono text-[10px] tracking-[0.2em] text-spice/70 uppercase">
-                                        ◊ {def.note}
-                                    </p>
+                    {/* SECCIÓN 1: LENGUAJE CHAKOBSA */}
+                    <div className="mb-6 border border-sand/10">
+                        <button
+                            onClick={() => setShowLanguage(!showLanguage)}
+                            className="group flex w-full items-center justify-between bg-dune-black/60 px-4 py-3 font-mono text-xs tracking-[0.2em] text-sand/60 uppercase transition-all hover:bg-dune-black/80 hover:text-sand-soft hover:border-spice/50"
+                        >
+                            <span className="flex items-center gap-2">
+                                <span>Léxico Chakobsa ({Object.keys(chakobsaLanguage).length} palabras)</span>
+                            </span>
+                            <span className="text-lg font-bold group-hover:text-spice">
+                                {showLanguage ? "−" : "+"}
+                            </span>
+                        </button>
+                        {showLanguage && (
+                            <div className="grid grid-cols-1 gap-px bg-sand/10 sm:grid-cols-2 md:grid-cols-3">
+                                {filteredLanguage.map(([word, def]) => (
+                                    <div
+                                        key={word}
+                                        className="group relative bg-dune-black p-5 transition-colors hover:bg-card"
+                                    >
+                                        <span
+                                            className={`absolute top-3 right-3 font-mono text-[7px] tracking-[0.2em] uppercase ${def.verified ? "text-sand/20" : "text-amber-600/60"
+                                                }`}
+                                        >
+                                            {def.verified ? "◆" : "◈ Aprox"}
+                                        </span>
+                                        <p className="text-display pr-8 text-xl text-sand-soft capitalize">
+                                            {word}
+                                        </p>
+                                        <p className="mt-2 text-sm text-muted-foreground">
+                                            {capitalize(def.meaning)}
+                                        </p>
+                                        {def.note && (
+                                            <p className="mt-2 font-mono text-[10px] tracking-[0.2em] text-spice/70 uppercase">
+                                                ◊ {def.note}
+                                            </p>
+                                        )}
+                                    </div>
+                                ))}
+                                {filteredLanguage.length === 0 && (
+                                    <div className="col-span-3 bg-dune-black p-10 text-center">
+                                        <p className="font-mono text-sm text-sand/40">
+                                            › Ningún término en el léxico Chakobsa para «{search}»
+                                        </p>
+                                    </div>
                                 )}
                             </div>
-                        ))}
-                        {filteredDict.length === 0 && (
-                            <div className="col-span-3 bg-dune-black p-10 text-center">
-                                <p className="font-mono text-sm text-sand/40">
-                                    › Ningún término registrado en el léxico imperial para «{search}»
-                                </p>
+                        )}
+                    </div>
+
+                    {/* SECCIÓN 2: TERMINOLOGÍA DEL IMPERIO */}
+                    <div className="border border-sand/10">
+                        <button
+                            onClick={() => setShowTerminology(!showTerminology)}
+                            className="group flex w-full items-center justify-between bg-dune-black/60 px-4 py-3 font-mono text-xs tracking-[0.2em] text-sand/60 uppercase transition-all hover:bg-dune-black/80 hover:text-sand-soft hover:border-spice/50"
+                        >
+                            <span className="flex items-center gap-2">
+                                <span>Terminología del Imperio ({Object.keys(duneTerminology).length} términos)</span>
+                            </span>
+                            <span className="text-lg font-bold group-hover:text-spice">
+                                {showTerminology ? "−" : "+"}
+                            </span>
+                        </button>
+                        {showTerminology && (
+                            <div className="grid grid-cols-1 gap-px bg-sand/10 sm:grid-cols-2 md:grid-cols-3">
+                                {filteredTerminology.map(([word, def]) => (
+                                    <div
+                                        key={word}
+                                        className="group relative bg-dune-black p-5 transition-colors hover:bg-card"
+                                    >
+                                        <span
+                                            className={`absolute top-3 right-3 font-mono text-[7px] tracking-[0.2em] uppercase ${def.verified ? "text-sand/20" : "text-amber-600/60"
+                                                }`}
+                                        >
+                                            {def.verified ? "◆" : "◈ Aprox"}
+                                        </span>
+                                        <p className="text-display pr-8 text-xl text-sand-soft capitalize">
+                                            {word}
+                                        </p>
+                                        <p className="mt-2 text-sm text-muted-foreground">
+                                            {capitalize(def.meaning)}
+                                        </p>
+                                        {def.note && (
+                                            <p className="mt-2 font-mono text-[10px] tracking-[0.2em] text-spice/70 uppercase">
+                                                ◊ {def.note}
+                                            </p>
+                                        )}
+                                    </div>
+                                ))}
+                                {filteredTerminology.length === 0 && (
+                                    <div className="col-span-3 bg-dune-black p-10 text-center">
+                                        <p className="font-mono text-sm text-sand/40">
+                                            › Ningún término en la terminología para «{search}»
+                                        </p>
+                                    </div>
+                                )}
                             </div>
                         )}
                     </div>
@@ -490,14 +564,31 @@ function ChakobsaPage() {
                     </p>
                 </section>
 
+                {/* FRASES SAGRADAS */}
                 <section className="bg-sand py-24 text-dune-black grain">
-                    <div className="mx-auto max-w-4xl px-6 text-center">
-                        <p className="eyebrow mb-8 text-blood">Frases sagradas</p>
-                        <div className="space-y-10">
-                            {chakobsaPhrases.map((p) => (
-                                <div key={p.phrase}>
-                                    <p className="text-display text-3xl md:text-5xl">{p.phrase}</p>
-                                    <p className="mt-3 text-sm tracking-[0.2em] text-dune-black/70 uppercase">
+                    <div className="mx-auto max-w-6xl px-6 text-center">
+
+                        <div className="space-y-16">
+                            {chakobsaPhrases.map((p, index) => (
+                                <div key={index}>
+                                    {Array.isArray(p.phrase) ? (
+                                        <blockquote className="mx-auto max-w-6xl space-y-1">
+                                            {p.phrase.map((line, i) => (
+                                                <p
+                                                    key={i}
+                                                    className="text-display text-xl md:text-3xl leading-relaxed"
+                                                >
+                                                    {line}
+                                                </p>
+                                            ))}
+                                        </blockquote>
+                                    ) : (
+                                        <p className="text-display text-3xl md:text-5xl">
+                                            {p.phrase}
+                                        </p>
+                                    )}
+
+                                    <p className="mt-6 text-sm tracking-[0.2em] text-dune-black/70 uppercase">
                                         {p.meaning}
                                     </p>
                                 </div>
