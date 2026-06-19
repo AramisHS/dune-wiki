@@ -12,6 +12,8 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { browserTitles } from "../lib/dune-data";
+import { ClientOnly } from "@/components/ui/ClientOnly";
+import { MentatButton } from "@/components/chat/MentatButton";
 
 function NotFoundComponent() {
   return (
@@ -138,8 +140,10 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <ClientOnly>
+        <MentatButton />
+      </ClientOnly>
     </QueryClientProvider>
   );
 }

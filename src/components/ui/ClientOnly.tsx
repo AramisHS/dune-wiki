@@ -1,16 +1,12 @@
-// src/components/ClientOnly.tsx
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState, ReactNode } from "react";
 
-export function ClientOnly({ children, fallback = null }: { children: ReactNode; fallback?: ReactNode }) {
+export function ClientOnly({ children }: { children: ReactNode }) {
     const [hasMounted, setHasMounted] = useState(false);
 
     useEffect(() => {
         setHasMounted(true);
     }, []);
 
-    if (!hasMounted) {
-        return <>{fallback}</>;
-    }
-
+    if (!hasMounted) return null;
     return <>{children}</>;
 }
