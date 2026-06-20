@@ -29,18 +29,6 @@ El proyecto busca centralizar información relevante del lore de Dune en una pla
 
 ---
 
-# 🎥 Demostración
-
-## 🌍 Exploración de la Wiki
-
-Recorrido por las principales secciones del sitio.
-
-<p align="center">
-  <img src="./docs/wiki-tour.gif" alt="DUNE Wiki Tour" width="100%">
-</p>
-
----
-
 ## 🧠 Mentat Imperial
 
 Consulta información sobre el universo de Dune mediante el asistente temático inspirado en los Mentats.
