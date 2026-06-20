@@ -1,63 +1,282 @@
-# DUNE Wiki
+<div align="center">
 
-Una wiki visual y cinematográfica sobre el universo de DUNE, construida con React y TanStack Start.
+# 🏜️ DUNE WIKI
 
-## 🚀 Cómo correr el proyecto localmente
+### The Encyclopedia of the Imperium
 
-### 1. Descomprime el archivo
+Explora personajes, casas nobles, facciones, planetas, historia, tecnología y profecías del universo creado por Frank Herbert.
+
+<br>
+
+<p align="center">
+  <img src="./docs/banner.webp" alt="DUNE Wiki Banner">
+</p>
+
+<br>
+
+<img src="https://img.shields.io/github/stars/AramisHS/dune-wiki?style=for-the-badge">
+<img src="https://img.shields.io/github/forks/AramisHS/dune-wiki?style=for-the-badge">
+<img src="https://img.shields.io/github/last-commit/AramisHS/dune-wiki?style=for-the-badge">
+<img src="https://img.shields.io/github/languages/top/AramisHS/dune-wiki?style=for-the-badge">
+
+<br><br>
+
+_"La especia debe fluir."_
+
+</div>
+
+---
+
+# 🌌 Sobre el Proyecto
+
+**DUNE Wiki** es una enciclopedia interactiva inspirada en el universo de **Dune**, diseñada para ofrecer una experiencia visual inmersiva mientras exploras la historia, personajes, organizaciones y planetas que forman parte del Imperio.
+
+El proyecto busca centralizar información relevante del lore de Dune en una plataforma moderna, rápida y fácil de navegar, manteniendo una estética inspirada en las adaptaciones cinematográficas contemporáneas.
+
+---
+
+# 🎥 Demostración
+
+## 🌍 Exploración de la Wiki
+
+Recorrido por las principales secciones del sitio.
+
+<p align="center">
+  <img src="./docs/wiki-tour.gif" alt="DUNE Wiki Tour" width="100%">
+</p>
+
+---
+
+## 🧠 Mentat Imperial
+
+Consulta información sobre el universo de Dune mediante el asistente temático inspirado en los Mentats.
+
+<p align="center">
+  <img src="./docs/mentat-chatbot.gif" alt="Mentat Imperial Chatbot" width="100%">
+</p>
+
+---
+
+# ✨ Características
+
+### 📖 Enciclopedia Interactiva
+
+Información organizada sobre:
+
+- Personajes
+- Casas Nobles
+- Facciones
+- Planetas
+- Tecnología
+- Religión
+- Historia Imperial
+
+### 🧠 Mentat Imperial
+
+Asistente temático capaz de responder preguntas relacionadas con:
+
+- Personajes
+- Casas
+- Facciones
+- Planetas
+- Eventos históricos
+- Conceptos importantes del universo
+
+### 🎬 Diseño Cinematográfico
+
+Inspirado visualmente en:
+
+- Dune (2021)
+- Dune: Part Two (2024)
+
+Elementos visuales:
+
+- Tonos arena
+- Contrastes oscuros
+- Diseño minimalista
+- Estética imperial
+
+### 📱 Responsive Design
+
+Compatible con:
+
+- Computadoras
+- Tablets
+- Dispositivos móviles
+
+---
+
+# 🏛️ Contenido Disponible
+
+## 👤 Personajes
+
+- Paul Atreides
+- Lady Jessica
+- Chani
+- Stilgar
+- Duncan Idaho
+- Gurney Halleck
+- Vladimir Harkonnen
+- Feyd-Rautha
+- Liet Kynes
+
+---
+
+## 👑 Casas Nobles
+
+- Casa Atreides
+- Casa Harkonnen
+- Casa Corrino
+
+---
+
+## ⚔️ Facciones
+
+- Fremen
+- Bene Gesserit
+- Mentats
+- Sardaukar
+- Cofradía Espacial
+
+---
+
+## 🌍 Planetas
+
+- Arrakis
+- Caladan
+- Giedi Prime
+- Salusa Secundus
+- Kaitain
+
+---
+
+# 📸 Capturas
+
+## Inicio
+
+<p align="center">
+  <img src="./docs/home.webp" width="100%">
+</p>
+
+---
+
+## Personajes
+
+<p align="center">
+  <img src="./docs/characters.webp" width="100%">
+</p>
+
+---
+
+## Casas Nobles
+
+<p align="center">
+  <img src="./docs/houses.webp" width="100%">
+</p>
+
+---
+
+## Mentat Imperial
+
+<p align="center">
+  <img src="./docs/chatbot.webp" width="100%">
+</p>
+
+---
+
+# 🛠️ Tecnologías
+
+<div align="center">
+
+| Tecnología      | Descripción                  |
+| --------------- | ---------------------------- |
+| React 19        | Biblioteca de interfaces     |
+| TypeScript      | Tipado estático              |
+| TanStack Start  | Framework Full Stack         |
+| Tailwind CSS v4 | Estilos                      |
+| Bun             | Runtime y gestor de paquetes |
+
+</div>
+
+---
+
+# 🚀 Instalación
+
+## Clonar repositorio
 
 ```bash
-unzip dune-wiki.zip
+git clone https://github.com/AramisHS/dune-wiki.git
+```
+
+## Entrar al directorio
+
+```bash
 cd dune-wiki
 ```
 
-> **Nota:** Si estás en Windows, usa el explorador de archivos para extraer el ZIP y luego abre una terminal dentro de la carpeta `dune-wiki`.
-
-### 2. Instala las dependencias
-
-Asegúrate de tener [Bun](https://bun.sh) instalado. Luego ejecuta:
+## Instalar dependencias
 
 ```bash
 bun install
 ```
 
-> Si no tienes Bun, puedes instalarlo con: `curl -fsSL https://bun.sh/install | bash` (macOS/Linux) o descargarlo desde [bun.sh](https://bun.sh).
-
-### 3. Corre el servidor de desarrollo
+## Iniciar entorno de desarrollo
 
 ```bash
 bun dev
 ```
 
-El proyecto se abrirá automáticamente en tu navegador en `http://localhost:3000`.
+---
+
+# 📂 Estructura del Proyecto
+
+```text
+src
+│
+├── assets
+│
+├── components
+│   ├── ui
+│   ├── layout
+│   └── sections
+│
+├── routes
+│
+├── data
+│
+├── hooks
+│
+├── lib
+│
+├── services
+│
+└── styles
+```
 
 ---
 
-## 🏗️ Tecnologías
+# 🎯 Objetivos
 
-- [React 19](https://react.dev)
-- [TanStack Start](https://tanstack.com/start)
-- [Tailwind CSS v4](https://tailwindcss.com)
-- [TypeScript](https://typescriptlang.org)
-
-## 📂 Estructura del proyecto
-
-| Carpeta / Archivo | Descripción |
-|-------------------|-------------|
-| `src/routes/`     | Páginas del sitio (enrutado automático) |
-| `src/components/` | Componentes reutilizables |
-| `src/lib/`        | Utilidades y datos de DUNE |
-| `src/assets/`     | Imágenes del proyecto |
-| `src/styles.css`  | Estilos globales y tokens de diseño |
-
-## 🎨 Secciones incluidas
-
-- **Inicio** — Hero cinematográfico con vista previa de secciones
-- **Personajes** — Perfiles de Paul, Jessica, Baron Harkonnen, Chani y más
-- **Casas y facciones** — Atreides, Harkonnen, Fremen, Bene Gesserit
-- **Lugares** — Arrakis, Caladan, Giedi Prime, Salusa Secundus
-- **Especia y ecología** — Melange, gusanos de arena, la Cofradía
+- Facilitar la exploración del universo Dune.
+- Reunir información relevante en una sola plataforma.
+- Ofrecer una experiencia visual inspirada en las películas.
+- Proporcionar una herramienta de consulta rápida mediante el Mentat Imperial.
 
 ---
 
-¡Disfruta explorando el universo de DUNE! 🌌
+# 📜 Disclaimer
+
+Este proyecto es una iniciativa realizada por fanáticos y con fines educativos.
+
+Dune, sus personajes, conceptos, nombres y material relacionado pertenecen a sus respectivos propietarios y titulares de derechos.
+
+---
+
+<div align="center">
+
+## 🪱 SHAI-HULUD OBSERVA
+
+_"El misterio de la vida no es un problema que resolver, sino una realidad que experimentar."_
+— Frank Herbert
+
+</div>
