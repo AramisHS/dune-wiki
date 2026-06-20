@@ -1,16 +1,10 @@
 <div align="center">
 
-# 🏜️ DUNE WIKI
+# DUNE WIKI
 
 ### The Encyclopedia of the Imperium
 
 Explora personajes, casas nobles, facciones, planetas, historia, tecnología y profecías del universo creado por Frank Herbert.
-
-<br>
-
-<p align="center">
-  <img src="./docs/banner.webp" alt="DUNE Wiki Banner">
-</p>
 
 <br>
 
@@ -155,7 +149,7 @@ Compatible con:
 ## Inicio
 
 <p align="center">
-  <img src="./docs/home.webp" width="100%">
+  <img src="./docs/home.png" width="100%">
 </p>
 
 ---
@@ -163,7 +157,7 @@ Compatible con:
 ## Personajes
 
 <p align="center">
-  <img src="./docs/characters.webp" width="100%">
+  <img src="./docs/characters.png" width="100%">
 </p>
 
 ---
@@ -171,15 +165,15 @@ Compatible con:
 ## Casas Nobles
 
 <p align="center">
-  <img src="./docs/houses.webp" width="100%">
+  <img src="./docs/houses.png" width="100%">
 </p>
 
 ---
 
-## Mentat Imperial
+## Traductor Chakobsa
 
 <p align="center">
-  <img src="./docs/chatbot.webp" width="100%">
+  <img src="./docs/chakobsa.png" width="100%">
 </p>
 
 ---
