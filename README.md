@@ -96,11 +96,8 @@ Compatible con:
 - Lady Jessica
 - Chani
 - Stilgar
-- Duncan Idaho
-- Gurney Halleck
-- Vladimir Harkonnen
-- Feyd-Rautha
-- Liet Kynes
+- Vladimir Harkonne
+- Leto Atreides
 
 ---
 
@@ -117,7 +114,7 @@ Compatible con:
 - Fremen
 - Bene Gesserit
 - Mentats
-- Sardaukar
+- Landsraad
 - Cofradía Espacial
 
 ---
@@ -127,8 +124,6 @@ Compatible con:
 - Arrakis
 - Caladan
 - Giedi Prime
-- Salusa Secundus
-- Kaitain
 
 ---
 
